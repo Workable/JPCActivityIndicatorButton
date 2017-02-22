@@ -406,8 +406,8 @@ public class ActivityIndicatorButton: UIControl {
         updateForNextActivityState(animated: false)
 
         // Observe touch down and up for fire ripple animations
-        self.addTarget(self, action: Selector(("handleTouchUp:")), for: .touchUpInside)
-        self.addTarget(self, action: Selector(("handleTouchDown:")), for: .touchDown)
+        self.addTarget(self, action: #selector(handleTouchUp(sender:)), for: .touchUpInside)
+        self.addTarget(self, action: #selector(handleTouchDown(sender:)), for: .touchDown)
     }
 
     struct Constants {
