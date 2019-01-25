@@ -276,7 +276,7 @@ public class ActivityIndicatorButton: UIControl {
     public var animationDuration: CFTimeInterval = 0.2
 
     /// The timing function for ActivityState transitions.
-    public var animationTimingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+    public var animationTimingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
 
     // MARK: Hit Ripple Animation
 
@@ -918,8 +918,8 @@ public class ActivityIndicatorButton: UIControl {
         let views = ["progress": self.progressView]
         let metrics: [String : NSNumber] = ["OUTER": NSNumber(value: Float(Constants.Layout.outerPadding))]
 
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views))
 
         self.addConstraint(NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0))
         self.addConstraint(NSLayoutConstraint(item: self.imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0))
@@ -951,11 +951,11 @@ public class ActivityIndicatorButton: UIControl {
         let views: [String : UIView] = ["bg": self.backgroundView, "image": imageView]
         let metrics: [String : NSNumber] = ["INNER": NSNumber(value: Float(innerPadding)), "IMAGE_PAD": NSNumber(value: Float(innerPadding + minimumImagePadding))]
 
-        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
-        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
 
-        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
-        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
 
         self.addConstraints(buttonConstraints)
     }
@@ -995,12 +995,12 @@ public class ActivityIndicatorButton: UIControl {
 
     // MARK: - Hit Animation
 
-    func handleTouchUp(sender: ActivityIndicatorButton) {
+    @objc func handleTouchUp(sender: ActivityIndicatorButton) {
 
         self.createRippleHitAnimation(isTouchUp: true)
     }
 
-    func handleTouchDown(sender: ActivityIndicatorButton) {
+    @objc func handleTouchDown(sender: ActivityIndicatorButton) {
 
         self.createRippleHitAnimation(isTouchUp: false)
     }
@@ -1013,7 +1013,7 @@ public class ActivityIndicatorButton: UIControl {
         let duration = self.hitAnimationDuration
         let distance: CGFloat = self.hitAnimationDistance
         let color = self.hitAnimationColor.cgColor
-        let timing = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        let timing = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
 
         let layer = CAShapeLayer()
         layer.fillColor = color
