@@ -276,7 +276,11 @@ public class ActivityIndicatorButton: UIControl {
     public var animationDuration: CFTimeInterval = 0.2
 
     /// The timing function for ActivityState transitions.
+    #if swift(>=4.2)
     public var animationTimingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+    #else
+    public var animationTimingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+    #endif
 
     // MARK: Hit Ripple Animation
 
@@ -297,7 +301,7 @@ public class ActivityIndicatorButton: UIControl {
 
     /// If true the circular background of this control is colored with the tint color and the image is colored white. Otherwise the background is clear and the image is tinted. Image color is only adjusted if it is a template image.
     /// :see: ActivityIndicatorButtonStyle
-    @IBInspectable public var style: ActivityIndicatorButtonStyle = .solid {
+    public var style: ActivityIndicatorButtonStyle = .solid {
         didSet {
             self.updateAllColors()
         }
@@ -918,8 +922,18 @@ public class ActivityIndicatorButton: UIControl {
         let views = ["progress": self.progressView]
         let metrics: [String : NSNumber] = ["OUTER": NSNumber(value: Float(Constants.Layout.outerPadding))]
 
+
+        #if swift(>=4.2)
         self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views))
+        #else
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views))
+        #endif
+        
+        #if swift(>=4.2)
         self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views))
+        #else
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(OUTER)-[progress]-(OUTER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views))
+        #endif
 
         self.addConstraint(NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0))
         self.addConstraint(NSLayoutConstraint(item: self.imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0))
@@ -951,12 +965,22 @@ public class ActivityIndicatorButton: UIControl {
         let views: [String : UIView] = ["bg": self.backgroundView, "image": imageView]
         let metrics: [String : NSNumber] = ["INNER": NSNumber(value: Float(innerPadding)), "IMAGE_PAD": NSNumber(value: Float(innerPadding + minimumImagePadding))]
 
+        #if swift(>=4.2)
         buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
         buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
+        #else
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(INNER)-[bg]-(INNER)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
+        #endif
 
+        #if swift(>=4.2)
         buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
         buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
+        #else
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
+        buttonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(IMAGE_PAD)-[image]-(IMAGE_PAD)-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
 
+        #endif
+        
         self.addConstraints(buttonConstraints)
     }
 
@@ -1013,7 +1037,11 @@ public class ActivityIndicatorButton: UIControl {
         let duration = self.hitAnimationDuration
         let distance: CGFloat = self.hitAnimationDistance
         let color = self.hitAnimationColor.cgColor
+        #if swift(>=4.2)
         let timing = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        #else
+        let timing = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        #endif
 
         let layer = CAShapeLayer()
         layer.fillColor = color
